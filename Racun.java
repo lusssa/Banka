@@ -4,14 +4,21 @@ public class Racun {
     private String vlasnik;
     private int stanje;
     private String brojRacuna;
+    private String sifra;
     private static int brojac = 1;
 
 
-    public Racun(String vlasnik, int stanje, String brojRacuna) {
+    public Racun(String vlasnik, int stanje, String sifra) {
         this.vlasnik = vlasnik;
+        this.sifra = sifra;
         this.stanje = stanje;
         this.brojRacuna = "ABC-" + brojac;
         brojac++;
+    }
+
+
+    public boolean provjeriSifru(String unos) {
+        return sifra.equals(unos);
     }
 
     public void uplati(int iznos) {
@@ -40,34 +47,67 @@ public class Racun {
 
         System.out.println("Unesi ime vlasnika: ");
         String ime = sc.nextLine();
-        Racun racun = new Racun(ime, 0, "ABC-" + brojac);
+        System.out.println("Unesi sifru: ");
+        String sifra = sc.nextLine();
 
+
+        Racun racun = new Racun(ime, 0, sifra);
+        System.out.println("Racun kreiran. Broj racuna: " + racun.brojRacuna);
+
+
+        boolean prijavljen = false;
         int izbor;
+
         do {
             System.out.println();
-            System.out.println("1. Stanje");
-            System.out.println("2. Uplata");
-            System.out.println("3. Isplata");
-            System.out.println("0. Izlaz");
-            System.out.print("Izbor: ");
-            izbor = sc.nextInt();
+            if(!prijavljen) {
+                System.out.println("1. Prijava");
+                System.out.println("0. Izlaz");
+                System.out.print("Izbor: ");
+                izbor = sc.nextInt();
 
-            if(izbor == 1) {
-                racun.stanje();
-            } else if(izbor == 2) {
-                System.out.print("Unesi iznos za uplatu: ");
-                int iznos = sc.nextInt();
-                racun.uplati(iznos);
-            } else if(izbor == 3) {
-                System.out.print("Unesi iznos za isplatu: ");
-                int iznos = sc.nextInt();
-                racun.podigni(iznos);
-            } else if(izbor != 0) {
-                System.out.println("Nepoznata opcija.");
+
+                if(izbor == 1) {
+                    System.out.print("Unesi ime vlasnika: ");
+                    String unosIme = sc.next();
+                    if(!unosIme.equals(racun.vlasnik)) {
+                        System.out.println("Nepoznat vlasnik.");
+                        continue;
+                    }
+                    System.out.print("Unesi sifru: ");
+                    String unosSifre = sc.next();
+                    if(racun.provjeriSifru(unosSifre)) {
+                        prijavljen = true;
+                        System.out.println("Uspjesna prijava.");
+                    } else {
+                        System.out.println("Pogresna sifra.");
+                    }
+                } else if(izbor != 0) {
+                    System.out.println("Nepoznata opcija.");
+                }
+            } else {
+                System.out.println("1. Stanje");
+                System.out.println("2. Uplata");
+                System.out.println("3. Isplata");
+                System.out.println("0. Izlaz");
+                System.out.print("Izbor: ");
+                izbor = sc.nextInt();
+
+                if(izbor == 1) {
+                    racun.stanje();
+                } else if(izbor == 2) {
+                    System.out.print("Unesi iznos za uplatu: ");
+                    int iznos = sc.nextInt();
+                    racun.uplati(iznos);
+                } else if(izbor == 3) {
+                    System.out.print("Unesi iznos za isplatu: ");
+                    int iznos = sc.nextInt();
+                    racun.podigni(iznos);
+                } else if(izbor != 0) {
+                    System.out.println("Nepoznata opcija.");
+                }
             }
         } while(izbor != 0);
-
-        System.out.println("Dovidjenja!");
-        sc.close();
+        
     }
 }
