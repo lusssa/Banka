@@ -3,11 +3,15 @@ import java.util.Scanner;
 public class Racun {
     private String vlasnik;
     private int stanje;
+    private String brojRacuna;
+    private static int brojac = 1;
 
 
-    public Racun(String vlasnik, int stanje) {
+    public Racun(String vlasnik, int stanje, String brojRacuna) {
         this.vlasnik = vlasnik;
         this.stanje = stanje;
+        this.brojRacuna = "ABC-" + brojac;
+        brojac++;
     }
 
     public void uplati(int iznos) {
@@ -28,6 +32,7 @@ public class Racun {
 
     public void stanje() {
         System.out.println("Vlasnik: " + vlasnik + ", Stanje: " + stanje + " EUR");
+        System.out.println("Broj racuna: " + brojRacuna);
     }
 
     public static void main(String[] args) {
@@ -35,7 +40,7 @@ public class Racun {
 
         System.out.println("Unesi ime vlasnika: ");
         String ime = sc.nextLine();
-        Racun racun = new Racun(ime, 0);
+        Racun racun = new Racun(ime, 0, "ABC-" + brojac);
 
         int izbor;
         do {
@@ -63,5 +68,6 @@ public class Racun {
         } while(izbor != 0);
 
         System.out.println("Dovidjenja!");
+        sc.close();
     }
 }
