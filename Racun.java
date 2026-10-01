@@ -21,6 +21,7 @@ public class Racun {
         return sifra.equals(unos);
     }
 
+
     public void uplati(int iznos) {
         if(iznos > 0) {
             stanje += iznos;
@@ -56,6 +57,7 @@ public class Racun {
 
 
         boolean prijavljen = false;
+        int pokusaji = 0;
         int izbor;
 
         do {
@@ -78,9 +80,15 @@ public class Racun {
                     String unosSifre = sc.next();
                     if(racun.provjeriSifru(unosSifre)) {
                         prijavljen = true;
+                        pokusaji = 0;
                         System.out.println("Uspjesna prijava.");
                     } else {
-                        System.out.println("Pogresna sifra.");
+                        pokusaji++;
+                        if(pokusaji >= 3) {
+                            System.out.println("Previse pokusaja. Racun je blokiran.");
+                            break;
+                        }
+                        System.out.println("Pogresna sifra. Pokusaj " + pokusaji + " od 3.");
                     }
                 } else if(izbor != 0) {
                     System.out.println("Nepoznata opcija.");
@@ -108,6 +116,7 @@ public class Racun {
                 }
             }
         } while(izbor != 0);
+        sc.close();
         
     }
 }
